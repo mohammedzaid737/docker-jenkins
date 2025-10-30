@@ -30,13 +30,13 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', "${DOCKERHUB_CREDENTIALS}") {
-                        def app = docker.image("${IMAGE_NAME}:latest")
-                        app.push()
+                    withDockerRegistry([credentialsId: 'dockerhub-creds', url: 'https://index.docker.io/v1/']) {
+                        sh 'docker push mohammedzaid737/jenkins-test-app:latest'
                     }
                 }
             }
         }
+
     }
 
     post {
